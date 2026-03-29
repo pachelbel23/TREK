@@ -274,6 +274,7 @@ export default function SettingsPage(): React.ReactElement {
                   { value: 'nl', label: 'Nederlands' },
                   { value: 'ru', label: 'Русский' },
                   { value: 'zh', label: '中文' },
+                  { value: 'zh-TW', label: '繁體中文' },
                 ].map(opt => (
                   <button
                     key={opt.value}
