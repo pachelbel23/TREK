@@ -6,12 +6,13 @@ import es from './translations/es'
 import fr from './translations/fr'
 import ru from './translations/ru'
 import zh from './translations/zh'
+import zhTW from './translations/zh-TW'
 import nl from './translations/nl'
 
 type TranslationStrings = Record<string, string | { name: string; category: string }[]>
 
-const translations: Record<string, TranslationStrings> = { de, en, es, fr, ru, zh, nl }
-const LOCALES: Record<string, string> = { de: 'de-DE', en: 'en-US', es: 'es-ES', fr: 'fr-FR', ru: 'ru-RU', zh: 'zh-CN', nl: 'nl-NL' }
+const translations: Record<string, TranslationStrings> = { de, en, es, fr, ru, zh, 'zh-TW': zhTW, nl }
+const LOCALES: Record<string, string> = { de: 'de-DE', en: 'en-US', es: 'es-ES', fr: 'fr-FR', ru: 'ru-RU', zh: 'zh-CN', 'zh-TW': 'zh-TW', nl: 'nl-NL' }
 
 export function getLocaleForLanguage(language: string): string {
   return LOCALES[language] || LOCALES.en
