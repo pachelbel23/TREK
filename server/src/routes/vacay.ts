@@ -55,6 +55,112 @@ interface VacayHolidayCalendar {
 const holidayCache = new Map<string, { data: unknown; time: number }>();
 const CACHE_TTL = 24 * 60 * 60 * 1000;
 
+// Taiwan national holidays (not covered by Nager.at)
+const TW_HOLIDAYS: Record<number, { date: string; localName: string; name: string }[]> = {
+  2024: [
+    { date: '2024-01-01', localName: '元旦', name: "New Year's Day" },
+    { date: '2024-02-09', localName: '農曆除夕', name: 'Lunar New Year Eve' },
+    { date: '2024-02-10', localName: '春節', name: 'Chinese New Year' },
+    { date: '2024-02-11', localName: '春節', name: 'Chinese New Year Holiday' },
+    { date: '2024-02-12', localName: '春節', name: 'Chinese New Year Holiday' },
+    { date: '2024-02-28', localName: '和平紀念日', name: 'Peace Memorial Day' },
+    { date: '2024-04-04', localName: '兒童節／清明節', name: "Children's Day / Tomb Sweeping Day" },
+    { date: '2024-06-10', localName: '端午節', name: 'Dragon Boat Festival' },
+    { date: '2024-09-17', localName: '中秋節', name: 'Mid-Autumn Festival' },
+    { date: '2024-10-10', localName: '國慶日', name: 'National Day' },
+  ],
+  2025: [
+    { date: '2025-01-01', localName: '元旦', name: "New Year's Day" },
+    { date: '2025-01-28', localName: '農曆除夕', name: 'Lunar New Year Eve' },
+    { date: '2025-01-29', localName: '春節', name: 'Chinese New Year' },
+    { date: '2025-01-30', localName: '春節', name: 'Chinese New Year Holiday' },
+    { date: '2025-01-31', localName: '春節', name: 'Chinese New Year Holiday' },
+    { date: '2025-02-28', localName: '和平紀念日', name: 'Peace Memorial Day' },
+    { date: '2025-04-03', localName: '兒童節', name: "Children's Day" },
+    { date: '2025-04-04', localName: '清明節', name: 'Tomb Sweeping Day' },
+    { date: '2025-05-31', localName: '端午節', name: 'Dragon Boat Festival' },
+    { date: '2025-10-06', localName: '中秋節', name: 'Mid-Autumn Festival' },
+    { date: '2025-10-10', localName: '國慶日', name: 'National Day' },
+  ],
+  2026: [
+    { date: '2026-01-01', localName: '元旦', name: "New Year's Day" },
+    { date: '2026-02-16', localName: '農曆除夕', name: 'Lunar New Year Eve' },
+    { date: '2026-02-17', localName: '春節', name: 'Chinese New Year' },
+    { date: '2026-02-18', localName: '春節', name: 'Chinese New Year Holiday' },
+    { date: '2026-02-19', localName: '春節', name: 'Chinese New Year Holiday' },
+    { date: '2026-02-28', localName: '和平紀念日', name: 'Peace Memorial Day' },
+    { date: '2026-04-04', localName: '兒童節', name: "Children's Day" },
+    { date: '2026-04-05', localName: '清明節', name: 'Tomb Sweeping Day' },
+    { date: '2026-06-19', localName: '端午節', name: 'Dragon Boat Festival' },
+    { date: '2026-09-25', localName: '中秋節', name: 'Mid-Autumn Festival' },
+    { date: '2026-10-10', localName: '國慶日', name: 'National Day' },
+  ],
+  2027: [
+    { date: '2027-01-01', localName: '元旦', name: "New Year's Day" },
+    { date: '2027-02-05', localName: '農曆除夕', name: 'Lunar New Year Eve' },
+    { date: '2027-02-06', localName: '春節', name: 'Chinese New Year' },
+    { date: '2027-02-07', localName: '春節', name: 'Chinese New Year Holiday' },
+    { date: '2027-02-08', localName: '春節', name: 'Chinese New Year Holiday' },
+    { date: '2027-02-28', localName: '和平紀念日', name: 'Peace Memorial Day' },
+    { date: '2027-04-04', localName: '兒童節', name: "Children's Day" },
+    { date: '2027-04-05', localName: '清明節', name: 'Tomb Sweeping Day' },
+    { date: '2027-06-09', localName: '端午節', name: 'Dragon Boat Festival' },
+    { date: '2027-09-15', localName: '中秋節', name: 'Mid-Autumn Festival' },
+    { date: '2027-10-10', localName: '國慶日', name: 'National Day' },
+  ],
+  2028: [
+    { date: '2028-01-01', localName: '元旦', name: "New Year's Day" },
+    { date: '2028-01-25', localName: '農曆除夕', name: 'Lunar New Year Eve' },
+    { date: '2028-01-26', localName: '春節', name: 'Chinese New Year' },
+    { date: '2028-01-27', localName: '春節', name: 'Chinese New Year Holiday' },
+    { date: '2028-01-28', localName: '春節', name: 'Chinese New Year Holiday' },
+    { date: '2028-02-28', localName: '和平紀念日', name: 'Peace Memorial Day' },
+    { date: '2028-04-04', localName: '兒童節／清明節', name: "Children's Day / Tomb Sweeping Day" },
+    { date: '2028-05-28', localName: '端午節', name: 'Dragon Boat Festival' },
+    { date: '2028-10-03', localName: '中秋節', name: 'Mid-Autumn Festival' },
+    { date: '2028-10-10', localName: '國慶日', name: 'National Day' },
+  ],
+  2029: [
+    { date: '2029-01-01', localName: '元旦', name: "New Year's Day" },
+    { date: '2029-02-12', localName: '農曆除夕', name: 'Lunar New Year Eve' },
+    { date: '2029-02-13', localName: '春節', name: 'Chinese New Year' },
+    { date: '2029-02-14', localName: '春節', name: 'Chinese New Year Holiday' },
+    { date: '2029-02-15', localName: '春節', name: 'Chinese New Year Holiday' },
+    { date: '2029-02-28', localName: '和平紀念日', name: 'Peace Memorial Day' },
+    { date: '2029-04-04', localName: '兒童節／清明節', name: "Children's Day / Tomb Sweeping Day" },
+    { date: '2029-06-16', localName: '端午節', name: 'Dragon Boat Festival' },
+    { date: '2029-09-22', localName: '中秋節', name: 'Mid-Autumn Festival' },
+    { date: '2029-10-10', localName: '國慶日', name: 'National Day' },
+  ],
+  2030: [
+    { date: '2030-01-01', localName: '元旦', name: "New Year's Day" },
+    { date: '2030-02-02', localName: '農曆除夕', name: 'Lunar New Year Eve' },
+    { date: '2030-02-03', localName: '春節', name: 'Chinese New Year' },
+    { date: '2030-02-04', localName: '春節', name: 'Chinese New Year Holiday' },
+    { date: '2030-02-05', localName: '春節', name: 'Chinese New Year Holiday' },
+    { date: '2030-02-28', localName: '和平紀念日', name: 'Peace Memorial Day' },
+    { date: '2030-04-04', localName: '兒童節', name: "Children's Day" },
+    { date: '2030-04-05', localName: '清明節', name: 'Tomb Sweeping Day' },
+    { date: '2030-06-05', localName: '端午節', name: 'Dragon Boat Festival' },
+    { date: '2030-09-12', localName: '中秋節', name: 'Mid-Autumn Festival' },
+    { date: '2030-10-10', localName: '國慶日', name: 'National Day' },
+  ],
+};
+
+function getTaiwanHolidays(year: number) {
+  const list = TW_HOLIDAYS[year];
+  if (!list) return [];
+  return list.map(h => ({
+    ...h,
+    countryCode: 'TW',
+    fixed: false,
+    global: true,
+    counties: null,
+    launchYear: null,
+    types: ['Public'],
+  }));
+}
+
 async function applyHolidayCalendars(planId: number): Promise<void> {
   const plan = db.prepare('SELECT holidays_enabled FROM vacay_plans WHERE id = ?').get(planId) as { holidays_enabled: number } | undefined;
   if (!plan?.holidays_enabled) return;
@@ -634,9 +740,10 @@ router.get('/holidays/countries', async (_req: Request, res: Response) => {
   if (cached && Date.now() - cached.time < CACHE_TTL) return res.json(cached.data);
   try {
     const resp = await fetch('https://date.nager.at/api/v3/AvailableCountries');
-    const data = await resp.json();
-    holidayCache.set(cacheKey, { data, time: Date.now() });
-    res.json(data);
+    const data = await resp.json() as { countryCode: string; name: string }[];
+    const withTaiwan = [{ countryCode: 'TW', name: 'Taiwan' }, ...data];
+    holidayCache.set(cacheKey, { data: withTaiwan, time: Date.now() });
+    res.json(withTaiwan);
   } catch {
     res.status(502).json({ error: 'Failed to fetch countries' });
   }
@@ -644,6 +751,10 @@ router.get('/holidays/countries', async (_req: Request, res: Response) => {
 
 router.get('/holidays/:year/:country', async (req: Request, res: Response) => {
   const { year, country } = req.params;
+  if (country === 'TW') {
+    const data = getTaiwanHolidays(parseInt(year));
+    return res.json(data);
+  }
   const cacheKey = `${year}-${country}`;
   const cached = holidayCache.get(cacheKey);
   if (cached && Date.now() - cached.time < CACHE_TTL) return res.json(cached.data);
